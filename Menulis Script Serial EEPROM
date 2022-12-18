@@ -1,0 +1,20 @@
+#include <Wire.h>
+
+void eeprom_i2c_write(byte address, byte from_addr, byte data) {
+  Wire.beginTransmission(address);
+  Wire.send(from_addr);
+  Wire.send(data);
+  Wire.endTransmission();
+}
+
+byte eeprom_i2c_read(int address, int from_addr) {
+  Wire.beginTransmission(address);
+  Wire.send(from_addr);
+  Wire.endTransmission();
+
+  Wire.requestFrom(address, 1);
+  if(Wire.available())
+    return Wire.receive();
+  else
+    return 0xFF;
+}
